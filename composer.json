@@ -1,0 +1,13 @@
+{
+    "name": "magentoese/module-productbadge-sample-data",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*"
+    },
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "MagentoEse\\ProductBadgeSampleData\\": ""
+        }
+    }
+}
