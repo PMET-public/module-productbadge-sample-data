@@ -28,7 +28,14 @@ class InstallData implements InstallDataInterface
     public function __construct(ProductFactory $productFactory, State $state, Repository $productAttributeRepository)
     {
         $this->productFactory = $productFactory;
-        $state->setAreaCode('adminhtml');
+        //Area code is required, but cannot be set if already set by another module
+        //Try to set it. If it fails, ignore it.
+        try{
+            $state->setAreaCode('adminhtml');
+        }
+        catch(Magento\Framework\Exception\LocalizedException $e){
+            // left empty
+        }
         $this->ispuData = require 'BadgesData.php';
         $this->productAttributeRepository = $productAttributeRepository;
     }
