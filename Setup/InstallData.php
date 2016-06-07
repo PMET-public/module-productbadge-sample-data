@@ -33,7 +33,7 @@ class InstallData implements InstallDataInterface
         try{
             $state->setAreaCode('adminhtml');
         }
-        catch(Magento\Framework\Exception\LocalizedException $e){
+        catch(\Magento\Framework\Exception\LocalizedException $e){
             // left empty
         }
         $this->ispuData = require 'BadgesData.php';
