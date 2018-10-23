@@ -2,12 +2,12 @@
 
 namespace MagentoEse\ProductBadgeSampleData\Setup;
 
-use Magento\Catalog\Model\ProductFactory;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\App\State;
-use Magento\Catalog\Model\Product\Attribute\Repository;
+use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 
     /**
  * @codeCoverageIgnore
@@ -20,14 +20,23 @@ class InstallData implements InstallDataInterface
      * @var array
      */
     private $ispuData;
-    private $productFactory;
-    private $state;
+
+    /** @var ProductRepositoryInterface  */
+    private $productRepository;
+
+    /** @var ProductAttributeRepositoryInterface  */
     private $productAttributeRepository;
 
 
-    public function __construct(ProductFactory $productFactory, State $state, Repository $productAttributeRepository)
+    /**
+     * InstallData constructor.
+     * @param ProductRepositoryInterface $productRepository
+     * @param State $state
+     * @param ProductAttributeRepositoryInterface $productAttributeRepository
+     */
+    public function __construct(ProductRepositoryInterface $productRepository, State $state, ProductAttributeRepositoryInterface $productAttributeRepository)
     {
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         //Area code is required, but cannot be set if already set by another module
         //Try to set it. If it fails, ignore it.
         try{
@@ -44,19 +53,18 @@ class InstallData implements InstallDataInterface
     {
         $_attribcode='badge';
 
-         $_product = $this->productFactory->create();
         foreach ($this->ispuData as $_pickupData) {
 
             //get product
-            $_product->load($_product->getIdBySku($_pickupData[0]));
+            $_product = $this->productRepository->get($_pickupData[0]);
 
             //get attribute based on text value
             $_attr = $_product->getResource()->getAttribute( $_attribcode);
             $_optionId = $_attr->getSource()->getOptionId($_pickupData[1]);
 
             //Set data and save product
-            $_product->setData($_attribcode,$_optionId );
-            $_product->getResource()->saveAttribute($_product,$_attribcode);
+            $_product->setCustomAttribute($_attribcode,$_optionId);
+            $this->productRepository->save($_product);
         }
     }
 }
