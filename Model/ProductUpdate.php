@@ -47,7 +47,8 @@ class ProductUpdate
             foreach ($rows as $row) {
                 $_productsArray[] = array_combine($header, $row);
             }
-            $this->importerModel = $this->objectManager->create('FireGento\FastSimpleImport\Model\Importer');
+            $this->importerModel = $this->objectManager->create('MagentoEse\DataInstall\Model\Import\Importer\Importer');
+            $this->importerModel->setEntityCode('catalog_product');
             $this->importerModel->setValidationStrategy('validation-skip-errors');
             try {
                 $this->importerModel->processImport($_productsArray);

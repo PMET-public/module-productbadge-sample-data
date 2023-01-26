@@ -29,7 +29,7 @@
             <module name="Magento_WidgetSampleData"/>
             <module name="Magento_WishlistSampleData"/>
             <module name="MagentoEse_ProductBadge"/>
-            <module name="FireGento_FastSimpleImport"/>
+            <module name="MagentoEse_DataInstall"/>
             <module name="MagentoEse_LookBook"/>
         </sequence>
     </module>
