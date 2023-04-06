@@ -5,6 +5,8 @@
  */
 namespace MagentoEse\ProductBadgeSampleData\Model;
 
+use Magento\Framework\File\Csv;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Setup\SampleData\Context as SampleDataContext;
 
 /**
@@ -15,9 +17,29 @@ use Magento\Framework\Setup\SampleData\Context as SampleDataContext;
 class ProductUpdate
 {
 
-    protected $sampleDataContext;
-    protected $eavConfig;
+    /**
+     * 
+     * @var FixtureManager
+     */
+    protected $fixtureManager;
+    
+    /**
+     * 
+     * @var ObjectManagerInterface
+     */
     protected $objectManager;
+
+    /**
+     * 
+     * @var Csv
+     */
+    protected $csvReader;
+
+    /**
+     * 
+     * @var \MagentoEse\DataInstall\Model\Import\Importer\Importer
+     */
+    protected $importerModel;
 
     public function __construct(
         SampleDataContext $sampleDataContext,
